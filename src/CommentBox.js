@@ -32,18 +32,10 @@ export default function CommentBox() {
         });
     };
 
-    const addInputField = ()=>{
-        setInputData([...inputdata, {
-            name: '',
-            email: '',
-            body: '',
-        } ])
-      
-    }
 
     const handleChange = (e) => {
         setInputData({ ...inputdata, [e.target.id]: e.target.value });
-      };
+    };
     return (
         <div className="">
             <div className="">
@@ -60,9 +52,9 @@ export default function CommentBox() {
                             onChange={handleChange}
                             className='border-2 lg:w-96 md:w-96 sm:w-72 h-12 mx-8 pl-2 m-4'
                         />
-                            <button className='border p-2 bg-lime-200 w-16 hover:bg-slate-300 '>Add</button>
-                            <button className="border p-2 ml-10" onClick={onClear}>Delete</button>
-                      
+                        <button className='border p-2 bg-lime-200 w-16 hover:bg-slate-300 '>Add</button>
+                        <button className="border p-2 ml-10" onClick={onClear}>Delete</button>
+
                     </form>
 
                 </div>
