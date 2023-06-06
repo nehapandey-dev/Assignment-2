@@ -7,7 +7,7 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 
 const Body=()=> {
-    const [users, setUsers] = useState([])
+    // const [users, setUsers] = useState([])
     const [record,setRecord] = useState([])
 
     const deleteItem = (id) => {
@@ -17,7 +17,7 @@ const Body=()=> {
     useEffect(() => {
         axios.get("https://jsonplaceholder.typicode.com/posts/1/comments")
             .then(response => {
-                setUsers(Object.keys(response.data[0]))
+                // setUsers(Object.keys(response.data[0]))
                 setRecord(response.data)
             })
 
