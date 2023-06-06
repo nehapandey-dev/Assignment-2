@@ -1,69 +1,55 @@
 import React from 'react';
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom"
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
-export default function Body(props) {
 
+const Body=()=> {
     const [users, setUsers] = useState([])
-    const [getvalue, setGetValue] = useState()
+    const [record,setRecord] = useState([])
 
+    const deleteItem = (id) => {
+        const newItems = record.filter((item) => item.id !== id);
+        setRecord(newItems)
+    }
     useEffect(() => {
-
-        fetch("https://jsonplaceholder.typicode.com/posts/1/comments")
-            .then(response => response.json())
-            .then(json => setUsers(json))
+        axios.get("https://jsonplaceholder.typicode.com/posts/1/comments")
+            .then(response => {
+                setUsers(Object.keys(response.data[0]))
+                setRecord(response.data)
+            })
 
     }, [])
-
-    const deleteItem = (i) => {
-        const newItems = [...users]
-        newItems.splice(i, 1)
-        setUsers(newItems)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setGetValue(getvalue);
-
-    };
     return (
-        <div className="lg:m-8 md:m-6 sm:m-2 border lg:p-6 md:p-4 sm:p-20 bg-slate-50 ">
-            <Table>
-                <Thead>
-                    <Tr>
-                        <Th>ID</Th>
-                        <Th>Name</Th>
-                        <Th>Email</Th>
-                        <Th>Comment</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {users.map(user => (
-                        <Tr key={user.id}>
-                            <Td className='border p-2'>{user.id}</Td>
-                            <Td className='lg:w-40 border p-2'>{user.name}</Td>
-                            <Td className='border p-2'>{user.email}</Td>
-                            <Td className='border p-2'>{user.body}</Td>
-                            <Td><button className='border p-2 w-24 bg-red-100 m-2' onClick={() => deleteItem(user.id)}>Delete</button></Td>
+        <>
+            <div className="lg:border-2 sm:border-1 lg:m-8 md:m-6 sm:m-2 lg:p-2 md:p-4 sm:p-2 bg-slate-50 sm:my-10 lg:mt-20">
+                <div className='border p-2 w-24 bg-green-200 m-2 mt-8 hover:bg-slate-300 text-center float-right rounded-md'><Link to="/create" >Add</Link></div>
+                <Table>
+                    <Thead>
+                        <Tr className="lg:text-lg sm:text-xs">
+                            <Th>Id</Th>
+                            <Th>Name</Th>
+                            <Th>Email</Th>
+                            <Th>Comment</Th>
                         </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-
-            <form onSubmit={handleSubmit}>
-                <input
-                    value={getvalue}
-                    onChange={(e) => setGetValue(e.target.value)}
-                    className='mx-24 p-2 rounded-md w-96 my-2 bg-slate-50' />
-                <input type={'text'}
-                    placeholder='Post Comment..'
-                    value={getvalue}
-                    onChange={(e) => setGetValue(e.target.value)}
-                    className='bg-white border text-center my-4 text-slate-900 w-64 h-16'
-                />
-                <button className='w-16 border p-2 m-4 hover:bg-slate-200' onClick={handleSubmit}>Submit</button>
-            </form>
-        </div>
+                    </Thead>
+                    <Tbody className="lg:text-sm sm:text-xs lg:border-2 sm:border-1 p-6">
+                        {record.map((user,index) => (
+                            <Tr key={index} >
+                                <Td className='lg:p-2 sm:p-4'>{user.id}</Td>
+                                <Td className='lg:w-40 border p-2'>{user.name}</Td>
+                                <Td className='border p-2'>{user.email}</Td>
+                                <Td className='border p-2'>{user.body}</Td>
+                                <Td><button className='border p-2 w-24 bg-red-300 m-2 hover:bg-slate-300 rounded-lg' onClick={(e) => deleteItem(user.id)}>Delete</button></Td>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </div>
+        </>
     );
 }
+
+export default Body

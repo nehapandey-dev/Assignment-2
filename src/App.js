@@ -1,11 +1,14 @@
 import './App.css';
+import Body from './Body';
+ 
 
-import Body from "./Body"
 
 function App() {
-    return(
+  return (
+    <div>
       <Body/>
-    )
+    </div>
+  )
 }
 
 export default App;
